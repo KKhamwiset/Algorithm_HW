@@ -9,12 +9,14 @@ void KN(vector<int> &A, int M, int k,int l,int r)
     sort(A.begin(), A.end());
     int n = A.size();
     int left = 0, right = n - 1, mid;
+    int range = k;
     while (left < right) {
         mid = left + (right - left) / 2;
-        if (A[mid] < M)
+        if (A[mid] < M - range)
             left = mid + 1;
         else
             right = mid;
+        range/=2;
     }
     left = right - 1;
     right = right;
@@ -33,7 +35,6 @@ void KN(vector<int> &A, int M, int k,int l,int r)
             right++;
         }
     }
-
 }
 
 int main()
