@@ -7,8 +7,10 @@ using namespace std;
 void KN(vector<int>& A, int M, int k) {
     sort(A.begin(), A.end());
     int i = 0;
-    while (i < A.size() && A[i] <= M) {
+    int range = k;
+    while (i < A.size() && A[i] < M - range) {
         i++;
+        range/=2;
     }
     int left = i - 1, right = i;
 
