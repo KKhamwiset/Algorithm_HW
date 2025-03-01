@@ -4,13 +4,24 @@
 #include <string>
 using namespace std;
 
+int digitLength(int x){
+    int count = 1;
+    int temp = x;
+    int amp = 10;
+    while (temp >= amp){
+        temp /= 10;
+        count++;
+    }
+    return count;
+}
+
 int pen_and_pencil(int x, int y) {
     if (x < 10 ) {
         return x * y;
     }
 
-    int a_length = to_string(x).size();
-    int b_length = to_string(y).size();
+    int a_length = digitLength(x);
+    int b_length = digitLength(y);
 
     int half = a_length / 2;
 
@@ -19,7 +30,6 @@ int pen_and_pencil(int x, int y) {
     int a2 = x % power;
     int b1 = y / power;
     int b2 = y % power;
-
     int D = pen_and_pencil(a2, b2);
     int B = pen_and_pencil(a2, b1);
     int C = pen_and_pencil(a1, b2);

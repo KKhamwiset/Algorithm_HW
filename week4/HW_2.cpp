@@ -6,7 +6,7 @@ void quicksort(int,int,int*);
 int partition(int,int,int*);
 
 int main(){
-    int arr[] = {16,25,2,54,36,9,12,66};
+    int arr[] = {2,3,1,5,4};
     int n = sizeof(arr)/sizeof(arr[0]);
     quicksort(0,n-1,arr);
     for(int i=0;i<n;i++){
@@ -26,19 +26,22 @@ void quicksort(int low,int high,int* arr){
 int partition(int start,int end,int *arr){
     int pivot = arr[start];
     int forward = start;
-    int backward = end + 1;
-    while(forward < backward){
-        do {
+    int back = end - 1;
+    while(true){
+        do{
             forward++;
-        } while (arr[forward] < pivot);
-        do {
-            backward--;
-        } while (arr[backward] > pivot);
-        
-        swap(arr[forward],arr[backward]);
-        
+        } while (arr[forward] < pivot && forward < end);
+        do{
+            back--;
+        } while(arr[back] > pivot && back > start);
+
+        if (forward >= back){
+            break;
+        }
+        cout << "Swapping " << arr[forward] << " and " << arr[back] << endl;
+        swap(arr[forward],arr[back]);
     }
-    swap(arr[forward],arr[backward]);   
-    swap(arr[start],arr[backward]);
-    return backward;
+    cout << "Swapping " << arr[forward] << " and " << arr[start]<< endl;
+    swap(arr[forward],arr[start]);
+    return forward;
 }

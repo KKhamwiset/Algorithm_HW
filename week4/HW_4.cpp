@@ -23,6 +23,7 @@ int main(){
             l = arr[i];
         }
     }
+    
     int* result = distribution_couting(arr,n,l,u);
     for (int i = 0; i < n; i++) {
         cout << result[i] << " ";

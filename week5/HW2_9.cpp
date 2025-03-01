@@ -16,7 +16,7 @@ int digitLength(int x) {
 int karasuba(int x,int y){
     int a_length = digitLength(x);
     int b_length = digitLength(y);
-    if (x <= 10 || y <= 10){
+    if (x < 10 ){
         return x*y;
     }
     int n = max(a_length, b_length);

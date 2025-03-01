@@ -57,7 +57,7 @@ int main(){
         freq[prev] = streak;
     }
     int maxFreq = -1;
-    for (int i = 0 ; i < maxDigit; i++){
+    for (int i = 0 ; i <= maxDigit; i++){
         if (freq[i] > maxFreq){
             maxFreq = freq[i];
         }
