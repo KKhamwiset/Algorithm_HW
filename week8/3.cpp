@@ -25,11 +25,9 @@ int solve (vector<Time> a){
     int count = 0;
     b.push_back(a[0]);
     for (int i = 1; i < a.size(); i++){
-        for (int j = count; j >= 0; j--){
-            if (a[i].arrivalTime <= b[j].departTime){
-                count++;
-                break;
-            }
+        if (a[i].arrivalTime >= b[b.size() - 1].departTime){
+            b.push_back(a[i]);
+            count++;
         }
     }
     return count;

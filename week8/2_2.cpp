@@ -1,15 +1,15 @@
 #include <iostream>
 using namespace std;
 
-int squares(int m, int n) {
+int squares(int w, int h) {
     int count = 0;
-    while (m > 0 && n > 0) {
-        if (m > n) {
-            count += m/n;
-            m = m % n;
+    while (w > 0 && h > 0) {
+        if (w > h) {
+            count += w/h;
+            w = w % h;
         } else {
-            count += n/m;
-            n = n % m;
+            count += h/w;
+            h = h % w;
         }
     }
     
@@ -17,8 +17,8 @@ int squares(int m, int n) {
 }
 
 int main() {
-    int m, n;
-    cin >> m >> n;
-    cout << squares(m, n) << endl;
+    int w, h;
+    cin >> w >> h;
+    cout << squares(w,h) << endl;
     return 0;
 }

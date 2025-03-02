@@ -1,7 +1,8 @@
 #include <iostream>
+
 using namespace std;
 
-int count = 0;
+int count_ = 0;
 
 bool isPrime(int x){
     if (x < 2) return false;
@@ -24,7 +25,7 @@ bool checkPrime(int *arr, int n) {
 void generatePermutations(int *arr, int start, int end) {
     if (start == end) {
         if (checkPrime(arr, end + 1)){
-            count++;
+            count_++;
         }
         return;
     }
@@ -46,6 +47,6 @@ int main(){
         arr[i] = i + 1;
     }
     generatePermutations(arr, 1, n-1);
-    cout << count << endl;
+    cout << count_ << endl;
     return 0;
 }
