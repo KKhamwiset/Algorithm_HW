@@ -21,7 +21,7 @@ void generate_(int x[], bool used[], int l, int n, int k,int &count) {
             x[l] = i;
             used[i] = true;
             generate_(x, used, l + 1, n, k,count);
-            used[i] = false;
+            used[i] = false;   
         }
     }
 }

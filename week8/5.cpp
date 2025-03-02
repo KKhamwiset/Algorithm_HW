@@ -36,12 +36,7 @@ vector<Coordinate> solve(vector<Coordinate>& points, Coordinate target) {
                 bestIndex = i;
             }
         }
-        
-        if (bestIndex == -1) {
-            result.clear();
-            break;
-        }
-        
+             
         result.push_back(points[bestIndex]);
         currentEnd = bestEnd;
         
