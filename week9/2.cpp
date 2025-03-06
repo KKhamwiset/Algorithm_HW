@@ -6,7 +6,7 @@ void addEdge(vector<vector<int>> &adj, int s, int e, int w) {
     adj[s - 1][e - 1] = w;
 }
 
-bool solve(const vector<vector<int>>& graph, int startVertex) {
+bool solve(vector<vector<int>>& graph, int startVertex) {
     bool f = false;
     for (int i = 0; i < graph.size(); i++) {
         if (graph[startVertex][i] == 0 && i != startVertex){
