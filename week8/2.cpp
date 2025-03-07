@@ -7,9 +7,8 @@ using namespace std;
 double solve(vector<double> v){
     double totalLength = v[0];
     for(int i = 1; i < v.size(); i++){
-        for (int j = i; j >= 0; j--){
-            totalLength += v[j];
-        }
+        v[i] += v[i - 1];
+        totalLength += v[i];
     }
     return totalLength / v.size();
 }
