@@ -1,28 +1,46 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 void addEdge(vector<vector<int>> &adj, int s, int e, int w) {
     adj[s - 1][e - 1] = w;
 }
 
-bool solve(vector<vector<int>>& graph, int startVertex) {
-    bool f = false;
-    for (int i = 0; i < graph.size(); i++) {
-        if (graph[startVertex][i] == 0 && i != startVertex){
-            f = true;
-            cout << i + 1 << " ";
+vector<bool> findReachable(vector<vector<int>>& graph, int startVertex) {
+    int n = graph.size();
+    vector<bool> visited(n, false);
+    queue<int> q;
+    
+    q.push(startVertex);
+    visited[startVertex] = true;
+    
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+        
+        for (int i = 0; i < n; i++) {
+            if (graph[current][i] > 0 && !visited[i]) {
+                visited[i] = true;
+                q.push(i);
+            }
         }
     }
-    return f;
+    
+    return visited;
 }
-void printGraph(vector<vector<int>> adj) {
-    for (int i = 0; i < adj.size(); i++) {
-        for (int j = 0; j < adj[i].size(); j++) {
-            cout << adj[i][j] << " ";
+
+bool solve(vector<vector<int>>& graph, int startVertex) {
+    vector<bool> reachable = findReachable(graph, startVertex);
+    bool found = false;
+    for (int i = 0; i < graph.size(); i++) {
+        if (!reachable[i] && i != startVertex) {
+            found = true;
+            cout << i + 1 << " "; 
         }
-        cout << endl;
     }
+    
+    return found;
 }
 
 int main(){
@@ -40,6 +58,7 @@ int main(){
             addEdge(graph, vertex, edges, 1);
         }
     }
+    
     int s;
     cin >> s;
     for (int i = 0; i < s; i++) {

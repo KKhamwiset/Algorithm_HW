@@ -1,57 +1,55 @@
-#include <iostream>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-bool hasCycle(int v, vector<vector<int>>& adj, vector<bool>& visited, vector<bool>& inStack) {
-    visited[v] = true;
-    inStack[v] = true;
+bool dfs(int curr, int prev, vector<vector<int>>& adj, vector<bool>& visited) {
+    visited[curr] = true;
     
-    for (int u : adj[v]) {
-        if (!visited[u] && hasCycle(u, adj, visited, inStack))
+    for (auto neighbor : adj[curr]) {
+        if (!visited[neighbor]) {
+            if (dfs(neighbor, curr, adj, visited)) {
+                return true;
+            }
+        }
+        else if (neighbor != prev) {
             return true;
-        else if (inStack[u])
-            return true;
+        }
     }
-    inStack[v] = false;
     return false;
 }
 
-
-bool cycle(int n, vector<vector<int>>& adj) {
-    vector<bool> visited(n, false);
-    vector<bool> inStack(n, false);
+bool checkCycle(vector<vector<int>>& adj, int n) {
+    vector<bool> visited(n + 1, false);
     
-
-    for (int i = 0; i < n; i++) {
-        if (!visited[i] && hasCycle(i, adj, visited, inStack))
-            return true;
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i] && !adj[i].empty()) {
+            if (dfs(i, -1, adj, visited)) {
+                return true;
+            }
+        }
     }
     return false;
 }
 
 int main() {
     int n;
-    cin >> n; 
-    vector<vector<int>> adj(n);
+    cin >> n;
+    vector<vector<int>> adj(n + 1);
     
     for (int i = 0; i < n; i++) {
-        int vertex, neighbor;
-        cin >> vertex; 
+        int v;
+        cin >> v;
         
+        int e = -1;
         while (true) {
-            cin >> neighbor;
-            if (neighbor == 0){
+            cin >> e;
+            if (e == 0) {
                 break;
             }
-            adj[vertex - 1].push_back(neighbor - 1); 
+            adj[v].push_back(e);
         }
     }
     
-    if (cycle(n, adj))
-        cout << "1" << endl;
-    else
-        cout << "0" << endl; 
+    cout << checkCycle(adj, n);
     
     return 0;
 }

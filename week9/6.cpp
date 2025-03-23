@@ -1,70 +1,72 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
 
 using namespace std;
 
+const int INF = INT_MAX;
 
-void addEdge(vector<vector<int>>& graph, int u, int v){
-    graph[u - 1][v -1] = 1;
-    graph[v - 1][u - 1] = 1;
-}
+vector<int> dijkstra(int start, int n, vector<vector<pair<int, int>>>& graph) {
+    vector<int> dist(n + 1, INF);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
 
-int solve(vector<vector<int>>& graph) {
-    int n = graph.size();
-    int best = -1;
-    int minMaxDistance = INT_MAX;
-    
-    for (int startNode = 0; startNode < n; startNode++) {
-        vector<int> distances(n, INT_MAX);
-        queue<int> q;
-        
-        distances[startNode] = 0;
-        q.push(startNode);
-        
-        while (!q.empty()) {
-            int current = q.front();
-            q.pop();
+    dist[start] = 0;
+    pq.push({0, start});
+
+    while (!pq.empty()) {
+        pair<int, int> top = pq.top();
+        int d = top.first;
+        int u = top.second;
+        pq.pop();
+
+        if (d > dist[u]) continue;
+
+        for (int i = 0; i < graph[u].size(); i++) {
+            int v = graph[u][i].first;
+            int weight = graph[u][i].second;
             
-            for (int neighbor = 0; neighbor < n; neighbor++) {
-                if (graph[current][neighbor] == 1 && distances[neighbor] == INT_MAX) {
-                    distances[neighbor] = distances[current] + 1;
-                    q.push(neighbor);
-                }
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.push({dist[v], v});
             }
-        }
-        int maxDistance = 0;
-        bool canReachAll = true;
-        
-        for (int i = 0; i < n; i++) {
-            if (distances[i] == INT_MAX) {
-                canReachAll = false;
-                break;
-            }
-            maxDistance = max(maxDistance, distances[i]);
-        }
-        
-
-        if (canReachAll && maxDistance < minMaxDistance) {
-            minMaxDistance = maxDistance;
-            best = startNode + 1; 
         }
     }
-    
-    return best;
+
+    return dist;
 }
 
 int main() {
-    int n, m;
-    cin >> n >> m;
-    vector<vector<int>> graph(n, vector<int>(n, 0));
-    
-    for (int i = 0; i < m; i++) {
-        int u, v;
-        cin >> u >> v;
-        addEdge(graph, u, v);
+    int N, M;
+    cin >> N >> M;
+
+    vector<vector<pair<int, int>>> graph(N + 1);
+
+    for (int i = 0; i < M; i++) {
+        int v, e;
+        cin >> v >> e;
+        graph[v].push_back({e, 1});
+        graph[e].push_back({v, 1});
     }
-    
-    int result = solve(graph);
-    cout << result << endl;
-    
+
+    int bestNode = -1, minMaxDist = INF;
+
+    for (int i = 1; i <= N; i++) {
+        vector<int> dist = dijkstra(i, N, graph);
+        int maxDist = 0;
+
+        for (int j = 1; j <= N; j++) {
+            if (dist[j] != INF) {
+                maxDist = max(maxDist, dist[j]);
+            }
+        }
+
+        if (maxDist < minMaxDist) {
+            minMaxDist = maxDist;
+            bestNode = i;
+        }
+    }
+
+    cout << bestNode << endl;
     return 0;
 }

@@ -4,55 +4,35 @@
 
 using namespace std;
 
-struct Line {
-    int x_i, x_j;
-};
+int maxSubsetSize(int n, vector<int> &arr, int k)
+{
+    vector<int> dp(k + 1, -1);
+    dp[0] = 0;
 
-// Sorting function: First by `x_i`, then by `x_j` in descending order
-bool compare(Line a, Line b) {
-    if (a.x_i == b.x_i)
-        return a.x_j > b.x_j;
-    return a.x_i < b.x_i;
-}
-
-int minSegmentsToCover(int xa, int xb, vector<Line>& segments) {
-    sort(segments.begin(), segments.end(), compare);
-
-    int current_end = xa, max_extend = xa, count = 0;
-    int i = 0, n = segments.size();
-    while (current_end < xb) {
-        bool found = false;
-        // Find the best segment to extend coverage
-        while (i < n && segments[i].x_i <= current_end) {
-            max_extend = max(max_extend, segments[i].x_j);
-            i++;
-            found = true;
+    for (int num : arr)
+    {
+        for (int j = k; j >= num; j--)
+        {
+            if (dp[j - num] != -1)
+            {
+                dp[j] = max(dp[j], dp[j - num] + 1);
+            }
         }
-
-        if (!found) return -1; // Cannot extend coverage
-
-        count++;
-        current_end = max_extend;
-
-        if (current_end >= xb) break;
     }
-
-    return count;
+    return (dp[k] == -1 ? 0 : dp[k]);
 }
 
-int main() {
-    int n;
+int main()
+{
+    int n, k;
     cin >> n;
-    vector<Line> segments(n);
-
+    vector<int> arr(n);
     for (int i = 0; i < n; i++)
-        cin >> segments[i].x_i >> segments[i].x_j;
+    {
+        cin >> arr[i];
+    }
+    cin >> k;
 
-    int xa, xb;
-    cin >> xa >> xb;
-
-    int result = minSegmentsToCover(xa, xb, segments);
-    cout << result << endl;
-
+    cout << maxSubsetSize(n, arr, k) << endl;
     return 0;
 }

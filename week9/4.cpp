@@ -31,7 +31,6 @@ int bfs(vector<vector<int>> &adj, int source, int maxRange) {
     // for (auto i : distance) {
     //     cout << i << " ";
     // }
-    cout << endl;
     int count = 0;
     for (int i = 0; i < n; i++) {
         if (distance[i] == -1 || distance[i] > maxRange) {
@@ -64,11 +63,8 @@ int main() {
         }
         addEdge(graph, s, d);
     }
-    printGraph(graph);
     int startVertex, maxRange;
     cin >> startVertex >> maxRange;
-    
     cout << bfs(graph, startVertex - 1, maxRange) << endl;
-    
     return 0;
 }

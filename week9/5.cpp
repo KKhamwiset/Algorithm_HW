@@ -8,32 +8,28 @@ using namespace std;
 int bfs(vector<vector<int>> &grid, int startRow, int startCol) {
     int n = grid.size();
     int m = grid[0].size();
+    int directionX[] = {0,1,0,-1};
+    int directionY[] = {1,0,-1,0};
     int targetColor = grid[startRow][startCol];
-    int count = 1;    
-    int dx[] = {-1, 0, 1, 0};
-    int dy[] = {0, 1, 0, -1};
-    queue<pair<int, int>> q;
-    q.push({startCol, startRow});
-    grid[startRow][startCol] = -1;
-    
-    while (!q.empty()) {
-        int y = q.front().first;
-        int x = q.front().second;
+    int count = 0;
+    queue<pair<int,int>> q;
+    q.push({startRow,startCol});
+    while (!q.empty()){
+        int x = q.front().first;
+        int y = q.front().second;
         q.pop();
-        
-        for (int i = 0; i < 4; i++) {
-            int nRow = x + dx[i];
-            int nCol = y + dy[i];
-            
-            if (nRow >= 0 && nRow < m && nCol >= 0 && nCol < m && grid[nRow][nCol] == targetColor) {
-                grid[nRow][nCol] = 0;
-                q.push({nCol, nRow});
+        for (int i = 0 ; i < 4 ;i++){
+            int nextX = x + directionX[i];
+            int nextY = y + directionY[i];
+            if (nextX >= 0 && nextX < m && nextY >= 0 && nextY < n && grid[nextX][nextY] == targetColor){
+                grid[nextX][nextY] = 0;
+                q.push({nextX,nextY});
                 count++;
             }
         }
     }
-    
     return count;
+
 }
 
 void printGrid(vector<vector<int>>& grid) {
@@ -63,8 +59,8 @@ int main() {
     cin >> x >> y;
     x--; y--;
     
-    
     int result = bfs(grid, x, y);
+    cout << result << endl;
     
     return 0;
 }
