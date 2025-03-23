@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <climits>
+#include <queue>
 using namespace std;
 
 int main() {
@@ -18,32 +18,35 @@ int main() {
     }
     
     vector<bool> inMST(n, false);
-    vector<int> key(n, INT_MAX);
     vector<int> parent(n, -1);
-
-    int startVertex = 0;
-    key[startVertex] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     
-    for (int count = 0; count < n; count++) {
-        int u = -1;
-        for (int v = 0; v < n; v++) {
-            if (!inMST[v] && (u == -1 || key[v] < key[u])) {
-                u = v;
-            }
-        }
+    int startVertex = 0;
+    
+    pq.push({0, startVertex});
+    
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        int weight = pq.top().first;
+        pq.pop();
         
-        if (u == -1) break;
+        if (inMST[u]) {
+            continue;
+        }
         
         inMST[u] = true;
         
         for (int v = 0; v < n; v++) {
-            if (graph[u][v] > 0 && !inMST[v] && graph[u][v] < key[v]) {
-                key[v] = graph[u][v];
-                parent[v] = u;
+            if (graph[u][v] > 0 && !inMST[v]) {
+                int edgeWeight = graph[u][v];
+                pq.push({edgeWeight, v});
+                if (!inMST[v] && (parent[v] == -1 || edgeWeight < graph[v][parent[v]])) {
+                    parent[v] = u;
+                }
             }
         }
     }
-
+    
     int totalFlags = 0;
     for (int i = 0; i < n; i++) {
         if (parent[i] != -1) {
